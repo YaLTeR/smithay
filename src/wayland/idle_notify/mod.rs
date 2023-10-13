@@ -157,7 +157,9 @@ impl<D: IdleNotifierHandler> IdleNotifierState<D> {
 
     /// Should be called whenever activity occurs on a seat, eg. mouse/keyboard input
     pub fn notify_activity(&mut self, seat: &WlSeat) {
-        let Some(notifications) = self.notifications.get(&seat.id()) else { return; };
+        let Some(notifications) = self.notifications.get(&seat.id()) else {
+            return;
+        };
 
         for notification in notifications.values() {
             let data = notification.data::<IdleNotificationUserData>().unwrap();
