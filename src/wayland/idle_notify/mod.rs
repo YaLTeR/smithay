@@ -179,10 +179,7 @@ impl<D: IdleNotifierHandler> IdleNotifierState<D> {
     }
 
     fn notifications(&self) -> impl Iterator<Item = &ExtIdleNotificationV1> {
-        self.notifications
-            .values()
-            .into_iter()
-            .flat_map(|seat| seat.values())
+        self.notifications.values().flat_map(|seat| seat.values())
     }
 
     fn reinsert_timer(&self, notification: &ExtIdleNotificationV1) {
