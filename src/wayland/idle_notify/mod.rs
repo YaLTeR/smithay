@@ -308,11 +308,11 @@ where
     fn destroyed(
         state: &mut D,
         _client: ClientId,
-        notification_object_id: NotificationObjectId,
+        notification: &ExtIdleNotificationV1,
         data: &IdleNotificationUserData,
     ) {
         if let Some(notifications) = state.idle_notifier_state().notifications.get_mut(&data.seat.id()) {
-            notifications.remove(&notification_object_id);
+            notifications.remove(&notification.id());
         }
     }
 }
