@@ -2665,24 +2665,6 @@ where
             PrimaryPlaneElement::Element(primary_plane_scanout_element.unwrap())
         };
 
-        // if the update only contains a cursor position update, skip it for vrr
-        if self.vrr_enabled()
-            && allow_partial_update
-            && next_frame_state.planes.iter().all(|(plane, state)| {
-                state.skip
-                    || (self.planes.cursor.iter().any(|p| *plane == p.handle)
-                        && state.buffer().map(|b| &b.fb)
-                            == previous_state.plane_buffer(*plane).map(|b| &b.fb))
-            })
-        {
-            for plane in self.planes.cursor.iter() {
-                let Some(state) = next_frame_state.plane_state_mut(plane.handle) else {
-                    continue;
-                };
-                state.skip = true;
-            }
-        }
-
         let next_frame = PreparedFrame {
             kind: if allow_partial_update {
                 PreparedFrameKind::Partial
